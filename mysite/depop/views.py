@@ -3,6 +3,13 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import pprint
+from django.shortcuts import render
+
+# def homepage(request):
+#     # return HttpResponse('homepage')
+#     name = uname
+#     followers = display_count(uname)
+#     return render(request, 'homepage.html', {'username': name}, {'follower_count': followers})
 
 # Create your views here.
 def index(request, uname="depop"):
@@ -11,7 +18,10 @@ def index(request, uname="depop"):
     # the template will have a variable for followers,
     # and we just pass it that. the template will be defined somewhere else
     # return renderTemplate(display_count(uname))
-    return HttpResponse("Hello, world. " + uname + " has " + display_count(uname) + " followers.")
+    name = uname
+    followers = display_count(uname)
+    return render(request, 'homepage.html', {'username': name, 'follower_count': followers})
+    # return HttpResponse("Hello, world. " + uname + " has " + display_count(uname) + " followers.")
 
 
 def display_count(u_name):
