@@ -3,7 +3,10 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import pprint
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.views.generic import TemplateView
+from depop.templates.forms import HomeForm
+
 
 # def homepage(request):
 #     # return HttpResponse('homepage')
@@ -12,6 +15,24 @@ from django.shortcuts import render
 #     return render(request, 'homepage.html', {'username': name}, {'follower_count': followers})
 
 # Create your views here.
+
+class HomeView(TemplateView):
+    template_name = 'homepage.html'
+
+    def get(self, request):
+        form = HomeForm()
+        return render(Request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = HomeForm(request.POST)
+        if form.is_valid():
+            text = form.cleaned_data['post']
+
+        args = {'form': form, 'text': text}
+        return render(Request, self.template_name, args)
+
+
+
 def index(request, uname="depop"):
     # assume ing we have a template
     # we just say
